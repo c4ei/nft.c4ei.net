@@ -103,9 +103,8 @@ const CreateNFT = () => {
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `b5c01f3ea1641e553076`,
-            pinata_secret_api_key: `
-            fb7570da9f7d1274a7e038759de39f0f0c99b082fe9372f17c59adef80c22b12`,
+            pinata_api_key: process.env.REACT_APP_PINATA_API,
+            pinata_secret_api_key: process.env.REACT_APP_PINATA_SECET,
             "Content-Type": "multipart/form-data",
           },
         });
