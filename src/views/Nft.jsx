@@ -114,7 +114,7 @@ const Bidders = ({ bidders, auction }) => {
                 {truncate(bid.bidder, 4, 4, 11)}
               </span>
               <span className="text-green-400 font-medium text-sm">
-                {bid.price} ETH
+                {bid.price} C4EI
               </span>
             </div>
 
@@ -143,7 +143,7 @@ const CountdownNPrice = ({ auction }) => {
     <div className="flex justify-between items-center py-5 ">
       <div>
         <span className="font-bold">Current Price</span>
-        <p className="text-sm font-light">{auction?.price}ETH</p>
+        <p className="text-sm font-light">{auction?.price}C4EI</p>
       </div>
 
       <div className="lowercase">

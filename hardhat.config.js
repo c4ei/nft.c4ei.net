@@ -1,11 +1,23 @@
 require('@nomiclabs/hardhat-waffle')
 require('dotenv').config()
+const AAH_RPC_URL = process.env.AAH_RPC_URL;
+const C4EI_RPC_URL = process.env.C4EI_RPC_URL;
 
 module.exports = {
-  defaultNetwork: 'localhost',
+  defaultNetwork: 'c4ei',
   networks: {
     localhost: {
       url: 'http://127.0.0.1:8545',
+    },
+    aah: {
+      url: AAH_RPC_URL,
+      accounts: [process.env.REACT_APP_PRIVATE_KEY],
+      chainId: 21133,
+    },
+    c4ei: {
+      url: C4EI_RPC_URL,
+      accounts: [process.env.REACT_APP_PRIVATE_KEY],
+      chainId: 21004,
     },
   },
   solidity: {

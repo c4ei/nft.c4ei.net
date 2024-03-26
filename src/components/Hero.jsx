@@ -25,7 +25,7 @@ const Bidder = () => (
     >
       <div className="p-2">
         Current Bid
-        <div className="font-bold text-center">2.231 ETH</div>
+        <div className="font-bold text-center">2231 C4EI</div>
       </div>
       <div className="p-2">
         Auction End

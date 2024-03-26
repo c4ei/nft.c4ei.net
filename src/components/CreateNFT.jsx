@@ -6,6 +6,29 @@ import picture6 from '../assets/images/picture6.png'
 import { setGlobalState, useGlobalState } from '../store'
 import { createNftItem } from '../services/blockchain'
 
+const uploadJsonToIPFS = async (data) => {
+  console.log("10 /src/components/CreateNFT.jsx data : "+data);
+  try {
+    const response = await axios({
+      method: "POST",
+      url: process.env.REACT_APP_PINATA_URL, //"https://api.pinata.cloud/pinning/pinJSONToIPFS",
+      data: data,
+      headers: {
+        pinata_api_key: process.env.REACT_APP_PINATA_API,
+        pinata_secret_api_key: process.env.REACT_APP_PINATA_SECET,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const saved_ipfs_url = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+    console.log(saved_ipfs_url);
+    return saved_ipfs_url;
+
+  } catch (error) {
+    console.log("Error while creating NFT / "+error);
+  }
+}
+
 const CreateNFT = () => {
   const [boxModal] = useGlobalState('boxModal')
   const [name, setName] = useState('')
@@ -17,17 +40,38 @@ const CreateNFT = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!name || !price || !description || !fileUrl) return
+    console.log(fileUrl +" : fileUrl 43 CreateNFT.jsx");
+    let params = {
+      id: Date.now(),
+      name,
+      description,
+      price,
+      image: fileUrl,
+    }
+    
+    const metadataURI = await uploadJsonToIPFS(params)
+    // name, description,image,metadataURI,price,
+    const _data = JSON.stringify({ name, description, fileUrl, metadataURI, price });
+    alert(_data +" : _data");
+    // string memory name,
+    // string memory description,
+    // string memory image,
+    // string memory tokenURI,
+    // uint price
+    await createNftItem(_data).then(async () => { closeModal() }).catch((e) => alert('some thing wrong!'+e))
+              // .catch(() => reject())
 
+  /*
     const formData = new FormData()
     formData.append('name', name)
     formData.append('price', price)
     formData.append('description', description)
-    formData.append('image', fileUrl)
-
+    // formData.append('image', fileUrl)
+    formData.append('imageURL', fileUrl)
     await toast.promise(
       new Promise(async (resolve, reject) => {
         await axios
-          .post('http://localhost:9000/process', formData)
+          .post('https://nftapi.c4ei.net/process', formData)
           .then(async (res) => {
             await createNftItem(res.data)
               .then(async () => {
@@ -45,17 +89,52 @@ const CreateNFT = () => {
         error: 'Encountered error 🤯',
       },
     )
+  */
   }
 
+  const updImgToIPFS = async (file) => {
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          data: formData,
+          headers: {
+            pinata_api_key: `b5c01f3ea1641e553076`,
+            pinata_secret_api_key: `
+            fb7570da9f7d1274a7e038759de39f0f0c99b082fe9372f17c59adef80c22b12`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+        console.log("104 updImgToIPFS ImgHash:" + ImgHash +" setFileUrl(ImgHash) ");
+        setFileUrl(ImgHash)
+        setImgBase64(ImgHash)
+        return ImgHash;
+      } catch (error) {
+        console.log("Unable to upload image to Pinata");
+      }
+    }
+  };
+  
   const changeImage = async (e) => {
+
     const reader = new FileReader()
+    // console.log("/src/components/CreateNFT.jsx 52"+e.target.files[0].name);
     if (e.target.files[0]) reader.readAsDataURL(e.target.files[0])
 
     reader.onload = (readerEvent) => {
-      const file = readerEvent.target.result
-      setImgBase64(file)
-      setFileUrl(e.target.files[0])
+      // const file = readerEvent.target.result
+      // setImgBase64(file)
+      // setFileUrl(e.target.files[0])
+      const _upd_file_url = updImgToIPFS(e.target.files[0]) 
+      console.log("/src/components/CreateNFT.jsx 122 : IPFS url "+_upd_file_url);
+      // setFileUrl(_upd_file_url)
     }
+
   }
 
   const closeModal = () => {
@@ -142,7 +221,7 @@ const CreateNFT = () => {
               name="price"
               step={0.01}
               min={0.01}
-              placeholder="Price (Eth)"
+              placeholder="Price (C4EI)"
               onChange={(e) => setPrice(e.target.value)}
               value={price}
               required

@@ -6,6 +6,7 @@ const { getGlobalState, useGlobalState, setGlobalState } = createGlobalState({
   offerModal: 'scale-0',
   priceModal: 'scale-0',
   connectedAccount: '',
+  connectedChainId: '',
   collections: [],
   bidders: [],
   auctions: [],

@@ -33,12 +33,12 @@ describe('Contracts', () => {
     beforeEach(async () => {
       await contract.createAuction(name, description, image, metadata1, price, {
         from: seller.address,
-        value: toWei(0.02),
+        value: toWei(0.8),
       })
       await contract
         .connect(reseller)
         .createAuction(name, description, image, metadata2, price, {
-          value: toWei(0.02),
+          value: toWei(0.8),
         })
     })
 

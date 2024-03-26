@@ -71,7 +71,7 @@ const Auction = ({ auction, showOffer }) => {
       >
         <div className="flex flex-col items-start py-2 px-1">
           <span>Current Bid</span>
-          <div className="font-bold text-center">{auction.price} ETH</div>
+          <div className="font-bold text-center">{auction.price} C4EI</div>
         </div>
         <div className="flex flex-col items-start py-2 px-1">
           <span>Auction End</span>

@@ -75,7 +75,7 @@ const ChangePrice = () => {
               name="price"
               step={0.01}
               min={0.01}
-              placeholder="Days E.g 2.3 ETH"
+              placeholder="Days E.g 2.3 C4EI"
               onChange={(e) => setPrice(e.target.value)}
               value={price}
               required

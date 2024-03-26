@@ -4,6 +4,7 @@ import { truncate, useGlobalState } from '../store'
 
 const Header = () => {
   const [connectedAccount] = useGlobalState('connectedAccount')
+  const [connectedChainId] = useGlobalState('connectedChainId')
   return (
     <nav className="w-4/5 flex flex-row md:justify-center justify-between items-center py-4 mx-auto">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
@@ -30,7 +31,8 @@ const Header = () => {
           bg-green-500 hover:bg-green-700 md:text-xs p-2
           rounded-full cursor-pointer text-xs sm:text-base"
         >
-          {truncate(connectedAccount, 4, 4, 11)}
+          {connectedChainId} {truncate(connectedAccount, 4, 4, 11)}
+          
         </button>
       ) : (
         <button

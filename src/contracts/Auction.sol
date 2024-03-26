@@ -1,3 +1,7 @@
+/*
+Deployed contract address 0xe66cd3F51408F6167321Bce0769263478BAD6800
+*/
+
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
@@ -11,14 +15,15 @@ contract Auction is ERC721URIStorage, ReentrancyGuard {
     Counters.Counter private totalItems;
 
     address companyAcc;
-    uint listingPrice = 0.02 ether;
+    uint listingPrice = 0.8 ether;
     uint royalityFee;
     mapping(uint => AuctionStruct) auctionedItem;
     mapping(uint => bool) auctionedItemExist;
     mapping(string => uint) existingURIs;
     mapping(uint => BidderStruct[]) biddersOf;
 
-    constructor(uint _royaltyFee) ERC721("Daltonic Tokens", "DAT") {
+    // constructor(uint _royaltyFee) ERC721("AAH NFT Auc", "DAT") {
+    constructor(uint _royaltyFee) ERC721("AAH NFT Auc", "ANA") {
         companyAcc = msg.sender;
         royalityFee = _royaltyFee;
     }
@@ -392,4 +397,11 @@ contract Auction is ERC721URIStorage, ReentrancyGuard {
         (bool success, ) = payable(to).call{value: amount}("");
         require(success);
     }
+
+    // function withdraw() external payable onlyOwner {
+    //     (bool success, ) = payable(owner).call{value: address(this).balance}(
+    //         ""
+    //     );
+    //     require(success);
+    // }
 }

@@ -1,0 +1,6 @@
+2024-03-26
+
+yarn hardhat run scripts/deploy.js
+
+cd /home/dev/www/nft.c4ei.net/api
+node app.js

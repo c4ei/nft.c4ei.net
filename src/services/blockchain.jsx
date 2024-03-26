@@ -2,6 +2,7 @@ import abi from '../abis/src/contracts/Auction.sol/Auction.json'
 import address from '../abis/contractAddress.json'
 import { getGlobalState, setGlobalState } from '../store'
 import { ethers } from 'ethers'
+// import { Web3Modal } from "web3modal";
 import { checkAuthState, logOutWithCometChat } from './chat'
 
 const { ethereum } = window
@@ -9,17 +10,20 @@ const ContractAddress = address.address
 const ContractAbi = abi.abi
 let tx
 
-const toWei = (num) => ethers.utils.parseEther(num.toString())
+// const toWei = (num) => ethers.utils.parseEther(num.toString())
+const toWei = (num) => ethers.utils.parseEther(num)
 const fromWei = (num) => ethers.utils.formatEther(num)
 
 const getEthereumContract = async () => {
   const connectedAccount = getGlobalState('connectedAccount')
 
   if (connectedAccount) {
-    const provider = new ethers.providers.Web3Provider(ethereum)
+    // const provider = new ethers.providers.Web3Provider(ethereum)
+    // const provider = new ethers.providers.Web3Provider('https://rpc.c4ei.net')
+    const provider = ((window.ethereum != null) ? new ethers.providers.Web3Provider(window.ethereum) : ethers.providers.Web3Provider("https://rpc.c4ei.net"));
+
     const signer = provider.getSigner()
     const contract = new ethers.Contract(ContractAddress, ContractAbi, signer)
-
     return contract
   } else {
     return getGlobalState('contract')
@@ -28,9 +32,26 @@ const getEthereumContract = async () => {
 
 const isWallectConnected = async () => {
   try {
-    if (!ethereum) return alert('Please install Metamask')
+    if (!ethereum) 
+    {
+      alert('Please install Metamask')
+      // return
+    }
+    
     const accounts = await ethereum.request({ method: 'eth_accounts' })
-    setGlobalState('connectedAccount', accounts[0]?.toLowerCase())
+    const _chainId = Number(await ethereum.request({ method: "eth_chainId" }))
+    if (_chainId!=21004) {
+      alert('Please change Network C4EI current : '+_chainId)
+      return 
+    }
+
+    if (accounts.length) {
+      setGlobalState('connectedAccount', accounts[0]?.toLowerCase())
+      setGlobalState('connectedChainId', _chainId)
+    } else {
+      alert('Please connect wallet.')
+      console.log('No accounts found.')
+    }
 
     window.ethereum.on('chainChanged', (chainId) => {
       window.location.reload()
@@ -38,6 +59,7 @@ const isWallectConnected = async () => {
 
     window.ethereum.on('accountsChanged', async () => {
       setGlobalState('connectedAccount', accounts[0]?.toLowerCase())
+      setGlobalState('connectedChainId', _chainId)
       await isWallectConnected()
       await loadCollections()
       await logOutWithCometChat()
@@ -46,12 +68,7 @@ const isWallectConnected = async () => {
         .catch((error) => setGlobalState('currentUser', null))
     })
 
-    if (accounts.length) {
-      setGlobalState('connectedAccount', accounts[0]?.toLowerCase())
-    } else {
-      alert('Please connect wallet.')
-      console.log('No accounts found.')
-    }
+
   } catch (error) {
     reportError(error)
   }
@@ -75,21 +92,38 @@ const createNftItem = async ({
   price,
 }) => {
   try {
-    if (!ethereum) return alert('Please install Metamask')
+        // const web3Modal = new Web3Modal();
+    // const connection = await web3Modal.connect();
+    // const provider = new ethers.providers.Web3Provider(connection);
+    // const signer = provider.getSigner();
+    // const contract = fetchContract(signer);
+    // try
+    // {
+    //   const transaction = await contract.createAuction(
+    //     name, description, image, metadataURI, toWei(price),
+    //     {
+    //       from: connectedAccount,
+    //       value: toWei(0.8),
+    //     },
+    //   )
+    //   await transaction.wait();
+    //   console.log("contract call success", transaction);
+    // } catch(error) {
+    //   console.log("contract call failed", error);
+    // }
+
+    alert('115 createNftItem' +name+':name\n'+description+':description\n'+image+':image\n'+metadataURI+':metadataURI\n'+price+':price\n');
+    if (!ethereum) { return alert('Please install Metamask') }
+
     const connectedAccount = getGlobalState('connectedAccount')
     const contract = await getEthereumContract()
-    tx = await contract.createAuction(
-      name,
-      description,
-      image,
-      metadataURI,
-      toWei(price),
-      {
-        from: connectedAccount,
-        value: toWei(0.02),
-      },
-    )
-    await tx.wait()
+    alert(contract.address+" : contract");
+    // tx = await contract.createAuction( name,description,image,metadataURI,toWei(price),{from: connectedAccount,value: toWei(0.8),}, )
+    // await tx.wait()
+    const transaction = await contract.createAuction( name,description,image,metadataURI,toWei(price),{from: connectedAccount,value: toWei(0.8),}, )
+    await transaction.wait();
+
+    alert("116 : tx.wait()");
     await loadAuctions()
   } catch (error) {
     reportError(error)

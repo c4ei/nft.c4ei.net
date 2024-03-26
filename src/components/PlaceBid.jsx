@@ -75,7 +75,7 @@ const PlaceBid = () => {
               name="price"
               step={0.01}
               min={0.01}
-              placeholder="Price (Eth)"
+              placeholder="Price (C4EI)"
               onChange={(e) => setPrice(e.target.value)}
               value={price}
               required
