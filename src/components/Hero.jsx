@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import { BsArrowRightShort } from 'react-icons/bs'
-import picture0 from '../assets/images/picture0.png'
+import picture0 from '../assets/images/bee.jpeg'
 import { setGlobalState, useGlobalState } from '../store'
 import { loginWithCometChat, signUpWithCometChat } from '../services/chat'
 
@@ -24,11 +24,11 @@ const Bidder = () => (
       flex flex-row justify-between items-center px-3"
     >
       <div className="p-2">
-        Current Bid
-        <div className="font-bold text-center">2231 C4EI</div>
+        End Bid
+        <div className="font-bold text-center">31,500 C4EI</div>
       </div>
       <div className="p-2">
-        Auction End
+        Auction Ended
         <div className="font-bold text-center">20:10</div>
       </div>
     </div>
@@ -36,7 +36,7 @@ const Bidder = () => (
       className="bg-green-500 w-full h-[40px] p-2 text-center 
     font-bold font-mono "
     >
-      Place a Bid
+      End Bid
     </div>
   </div>
 )
