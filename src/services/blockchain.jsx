@@ -92,25 +92,6 @@ const createNftItem = async ({
   price,
 }) => {
   try {
-        // const web3Modal = new Web3Modal();
-    // const connection = await web3Modal.connect();
-    // const provider = new ethers.providers.Web3Provider(connection);
-    // const signer = provider.getSigner();
-    // const contract = fetchContract(signer);
-    // try
-    // {
-    //   const transaction = await contract.createAuction(
-    //     name, description, image, metadataURI, toWei(price),
-    //     {
-    //       from: connectedAccount,
-    //       value: toWei(0.8),
-    //     },
-    //   )
-    //   await transaction.wait();
-    //   console.log("contract call success", transaction);
-    // } catch(error) {
-    //   console.log("contract call failed", error);
-    // }
     // alert('115 blockchain.jsx - createNftItem\n' +name+':name\n'+description+':description\n'+image+':image\n'+metadataURI+':metadataURI\n'+price+':price\n');
     if (!ethereum) { return alert('Please install Metamask') }
 
@@ -131,12 +112,17 @@ const createNftItem = async ({
       }, 
     )
     await transaction.wait();
-
-    alert("116 : tx.wait()");
+    closeModal()
+    // alert("116 : tx.wait()");
     await loadAuctions()
   } catch (error) {
     reportError(error)
   }
+}
+
+const closeModal = () => {
+  setGlobalState('boxModal', 'scale-0')
+  // resetForm()
 }
 
 const updatePrice = async ({ tokenId, price }) => {

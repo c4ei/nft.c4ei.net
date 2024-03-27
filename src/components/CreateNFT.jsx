@@ -7,7 +7,7 @@ import { setGlobalState, useGlobalState } from '../store'
 import { createNftItem } from '../services/blockchain'
 
 const uploadJsonToIPFS = async (data) => {
-  console.log("10 /src/components/CreateNFT.jsx data : "+data);
+  // console.log("10 /src/components/CreateNFT.jsx data : "+data);
   try {
     const response = await axios({
       method: "POST",
@@ -21,7 +21,7 @@ const uploadJsonToIPFS = async (data) => {
     });
 
     const saved_ipfs_url = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-    console.log(saved_ipfs_url);
+    // console.log(saved_ipfs_url);
     return saved_ipfs_url;
 
   } catch (error) {
@@ -43,16 +43,6 @@ const CreateNFT = () => {
 
     let params = { id: Date.now(),name,description,price,image: fileUrl,}
     const metadataURI = await uploadJsonToIPFS(params)
-    // let img = fileUrl;
-    // alert('img 47 :'+img);
-    // name, description,image,metadataURI,price,
-    // const _data = JSON.stringify({ name, description, fileUrl, metadataURI, price });
-    // alert("CreateNFT.jsx 49 -"+_data +" : _data");
-    // string memory name,
-    // string memory description,
-    // string memory image,
-    // string memory tokenURI,
-    // uint price
     let image = fileUrl
     // alert("56 : "+fileUrl+":fileUrl");
     await createNftItem({name, description, image, metadataURI, price}).then(async () => { 
@@ -108,7 +98,7 @@ const CreateNFT = () => {
           },
         });
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-        console.log("109 updImgToIPFS ImgHash:" + ImgHash +" setFileUrl(ImgHash) ");
+        // console.log("109 updImgToIPFS ImgHash:" + ImgHash +" setFileUrl(ImgHash) ");
         setFileUrl(ImgHash)
         setImgBase64(ImgHash)
         return ImgHash;
