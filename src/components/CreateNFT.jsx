@@ -40,25 +40,24 @@ const CreateNFT = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!name || !price || !description || !fileUrl) return
-    console.log(fileUrl +" : fileUrl 43 CreateNFT.jsx");
-    let params = {
-      id: Date.now(),
-      name,
-      description,
-      price,
-      image: fileUrl,
-    }
-    
+
+    let params = { id: Date.now(),name,description,price,image: fileUrl,}
     const metadataURI = await uploadJsonToIPFS(params)
+    // let img = fileUrl;
+    // alert('img 47 :'+img);
     // name, description,image,metadataURI,price,
-    const _data = JSON.stringify({ name, description, fileUrl, metadataURI, price });
-    alert(_data +" : _data");
+    // const _data = JSON.stringify({ name, description, fileUrl, metadataURI, price });
+    // alert("CreateNFT.jsx 49 -"+_data +" : _data");
     // string memory name,
     // string memory description,
     // string memory image,
     // string memory tokenURI,
     // uint price
-    await createNftItem(_data).then(async () => { closeModal() }).catch((e) => alert('some thing wrong!'+e))
+    let image = fileUrl
+    // alert("56 : "+fileUrl+":fileUrl");
+    await createNftItem({name, description, image, metadataURI, price}).then(async () => { 
+      //closeModal() 
+    }).catch((e) => alert('some thing wrong!'+e))
               // .catch(() => reject())
 
   /*
@@ -109,7 +108,7 @@ const CreateNFT = () => {
           },
         });
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-        console.log("104 updImgToIPFS ImgHash:" + ImgHash +" setFileUrl(ImgHash) ");
+        console.log("109 updImgToIPFS ImgHash:" + ImgHash +" setFileUrl(ImgHash) ");
         setFileUrl(ImgHash)
         setImgBase64(ImgHash)
         return ImgHash;
@@ -130,7 +129,7 @@ const CreateNFT = () => {
       // setImgBase64(file)
       // setFileUrl(e.target.files[0])
       const _upd_file_url = updImgToIPFS(e.target.files[0]) 
-      console.log("/src/components/CreateNFT.jsx 122 : IPFS url "+_upd_file_url);
+      // console.log("/src/components/CreateNFT.jsx 122 : IPFS url "+_upd_file_url);
       // setFileUrl(_upd_file_url)
     }
 

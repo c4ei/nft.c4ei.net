@@ -11,7 +11,7 @@ const ContractAbi = abi.abi
 let tx
 
 // const toWei = (num) => ethers.utils.parseEther(num.toString())
-const toWei = (num) => ethers.utils.parseEther(num)
+const toWei = (num) => ethers.utils.parseEther(num).toString()
 const fromWei = (num) => ethers.utils.formatEther(num)
 
 const getEthereumContract = async () => {
@@ -111,16 +111,25 @@ const createNftItem = async ({
     // } catch(error) {
     //   console.log("contract call failed", error);
     // }
-
-    alert('115 createNftItem' +name+':name\n'+description+':description\n'+image+':image\n'+metadataURI+':metadataURI\n'+price+':price\n');
+    // alert('115 blockchain.jsx - createNftItem\n' +name+':name\n'+description+':description\n'+image+':image\n'+metadataURI+':metadataURI\n'+price+':price\n');
     if (!ethereum) { return alert('Please install Metamask') }
 
     const connectedAccount = getGlobalState('connectedAccount')
     const contract = await getEthereumContract()
-    alert(contract.address+" : contract");
+    // alert(contract.address+" : contract-119 ln");
     // tx = await contract.createAuction( name,description,image,metadataURI,toWei(price),{from: connectedAccount,value: toWei(0.8),}, )
     // await tx.wait()
-    const transaction = await contract.createAuction( name,description,image,metadataURI,toWei(price),{from: connectedAccount,value: toWei(0.8),}, )
+    const transaction = await contract.createAuction( 
+      name,
+      description,
+      image,
+      metadataURI,
+      toWei(price),
+      {
+        from: connectedAccount,
+        value: "800000000000000000", //toWei(0.8)
+      }, 
+    )
     await transaction.wait();
 
     alert("116 : tx.wait()");
