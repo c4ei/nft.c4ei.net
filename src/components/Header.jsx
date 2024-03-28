@@ -25,6 +25,7 @@ const Header = () => {
         <Link to="https://c4ex.net" className="mx-4 cursor-pointer">Buy C4EI</Link> */}
         <a href="https://c4ei.net" target="_blank" rel="noopener noreferrer">C4EI Home</a>
         <a href="https://c4ex.net" target="_blank" rel="noopener noreferrer">Buy C4EI</a>
+        <a href="https://docs.google.com/document/d/1S3HcMW2EmzvCEtDeF4JdSrbZOuO0JdPOHl5Stc0lhbE/edit?usp=sharing" target="_blank" rel="noopener noreferrer">사용법(DOC)</a>
         &nbsp;&nbsp;&nbsp;&nbsp;
       </ul>
 
