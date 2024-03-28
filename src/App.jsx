@@ -23,7 +23,7 @@ function App() {
     await checkAuthState()
       .then((user) => setGlobalState('currentUser', user))
       .catch((error) => setGlobalState('currentUser', null))
-    console.log('Blockchain Loaded')
+    // console.log('Blockchain Loaded')
   }, [])
 
   return (
