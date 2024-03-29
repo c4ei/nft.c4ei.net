@@ -32,7 +32,11 @@ function App() {
   const [auction] = useGlobalState('auction');
   useEffect(async () => {
     await isWallectConnected();
-    await loadAuctions().finally(() => setLoaded(true));
+    try{
+      await loadAuctions().finally(() => setLoaded(true));
+    }catch(e){
+      console.log('loadAuctions error');
+    }
     await checkAuthState()
       .then((user) => setGlobalState('currentUser', user))
       .catch((error) => setGlobalState('currentUser', null))
